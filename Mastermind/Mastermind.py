@@ -45,7 +45,6 @@ def spelinput(kleuren):
 def playerzetten(vierhidden):
     """De speler heeft 10 kansen om te raden wat de kleuren combinatie is."""
     zet = 1
-    print(vierhidden)
     while zet <= 10:
         combi = spelinput(kleurenlijst)
         print('Zet ' + str(zet) + ' is: ' + str(combi))
