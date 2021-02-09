@@ -1,19 +1,19 @@
 import random
+import itertools
 
 
 def playerinput(kleuren):
     """De speler geeft hier zijn kleuren combinatie."""
-    vierhidden = list()
+    vierhidden = []
     i = 0
-    print('We spelen met deze kleuren: ' + str(kleuren))
     while i < 4:
-        kleur1, kleur2, kleur3, kleur4 = input('Geef jouw verborgen combinatie: ').split()
+        kleur1, kleur2, kleur3, kleur4 = input('Geef jouw combinatie: ').split()
         kleurcombinatie = kleur1, kleur2, kleur3, kleur4
         for kleur in kleurcombinatie:
             if kleur not in kleuren:
                 print('Kies een van de kleuren uit de lijst.')
             else:
-                vierhidden.append(kleurcombinatie)
+                vierhidden.append(kleur)
                 i += 1
     return vierhidden
 
@@ -26,30 +26,14 @@ def computerinput(kleuren):
     return vierhidden
 
 
-def spelinput(kleuren):
-    """De speler raadt een kleuren combinatie."""
-    i = 0
-    combi = []
-    while i < 4:
-        kleur1, kleur2, kleur3, kleur4 = input('Geef jouw combinatie: ').split()
-        kleurcombinatie = kleur1, kleur2, kleur3, kleur4
-        for kleur in kleurcombinatie:
-            if kleur not in kleuren:
-                print('Kies een van de kleuren uit de lijst.')
-            else:
-                combi.append(kleur)
-                i += 1
-    return combi
-
-
 def playerzetten(vierhidden):
     """De speler heeft 10 kansen om te raden wat de kleuren combinatie is."""
     zet = 1
     while zet <= 10:
-        combi = spelinput(kleurenlijst)
+        combi = playerinput(kleurenlijst)
         print('Zet ' + str(zet) + ' is: ' + str(combi))
         zet += 1
-        validatie = validatecombination(vierhidden,combi)
+        validatie = validatecombination(vierhidden, combi)
         if validatie == 1:
             if zet-1 == 1:
                 return 'Je hebt gewonnen in ' + str(zet - 1) + ' zet!'
@@ -58,12 +42,32 @@ def playerzetten(vierhidden):
         else:
             print('Feedback: ' + str(validatie))
     if zet > 10:
-        return 'je hebt geen zetten meer.'
+        return 'je hebt geen zetten meer.\n De geheime combinatie was ' + str(vierhidden)
 
 
 def computerzetten(vierhidden):
     """De computer raad hier binnen 10 kansen de door de speler gemaakte kleuren combinatie."""
+    # Ik ben nog bezig met het algoritme
+    nieuwecombinaties = []
+    zet = 1
+    totalecombinaties = [list(mogelijkheid) for mogelijkheid in itertools.product(kleurenlijst, repeat=4)]
+    print(len(totalecombinaties))
+    while zet <= 10:
+        for kleur in range(len(kleurenlijst)):
+            combination = [kleurenlijst[kleur]] * 4
+            valid = validatecombination(vierhidden, combination)
+            if valid == 1:
+                return 'De computer heeft gewonnen in ' + str(zet - 1) + ' zetten!'
+            else:
+                for mog in totalecombinaties:
+                    x = validatecombination(vierhidden, mog)
+                    if x == valid:
+                        nieuwecombinaties.append(mog)
 
+        zet += 1
+    print(len(nieuwecombinaties))
+    if zet > 10:
+        return 'Je hebt gewonnen van de computer'
     return
 
 
@@ -97,9 +101,11 @@ def main():
     print('Kies hier hoe u mastermind wil spelen: \n1.Ik wil raden.\n2.De computer laten raden.')
     keuze = int(input('Ik kies voor nummer: '))
     if keuze == 1:
+        print('We spelen met deze kleuren: ' + str(kleurenlijst))
         vierhiddencomputer = computerinput(kleurenlijst)
         return playerzetten(vierhiddencomputer)
     elif keuze == 2:
+        print('We spelen met deze kleuren: ' + str(kleurenlijst))
         vierhiddenplayer = playerinput(kleurenlijst)
         return computerzetten(vierhiddenplayer)
     else:
