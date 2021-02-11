@@ -1,6 +1,47 @@
+"""
+
+..:: Code Review ::..
+
+Ik heb mijn voorgestelde aanpassingen bij de betreffende code gezet met TODO's;
+uiteraard rest jou de keuze hoeveel je hiermee wilt doen. Hier even centraal een paar opmerkingen.
+Onderzochte aspecten:
+
+1) Functionele decompositie
+
+Ik vind het een mooi gegeven dat je zo veel mogelijk parameters meegeeft (bijv. de kleurenlijst die consistent wordt
+doorgegeven); dat is een goed beginsel, want het maakt je code een stuk makkelijker aan te passen als er inderdaad meer
+kleuren bij komen. Wel zou ik de kleurenlijst ook in een functie meegeven als een default parameter, i.p.v een global.
+Verder is de onderverdeling tot dusver netjes; wel wordt dat met toekomstige algoritmen des te lastiger.
+
+2) Onderverdeling in modules
+
+Er is nog geen onderverdeling gemaakt in modules; op het moment loopt alle functionaliteit dus door elkaar. Voor
+de reeds geimplementeerde functies is dat niet al te erg; op het moment dat je de algoritmes gaat implementeren, zou ik
+die in een andere module zetten en gescheiden houden van deze functies.
+
+3) Commentaar
+
+In het algemeen heb je commentaar in je functies staan dat beknopt beschrijft wat de functies doen; wel zou ik je
+aanraden om overal kort bij op te nemen hoe de functies dat doel bereiken. Neem bijvoorbeeld de functie playerinput();
+hier zou ik bij zetten
+    '''De speler geeft hier zijn kleurencombinatie in, door de kleuren een voor een via de console in te voeren.'''
+Wat, maar ook hoe. Zeker bij lastigere functies is dat handig!
+
+4) Naamgeving variabelen
+
+De naamgeving van je variabelen is qua formaat prima, en goed consistent Nederlands.
+
+5) Werking van de code
+
+Ik loop tegen een error aan bij het invoeren van de combinatie; ik voerde het woord "geel" an sich in, om te testen wat
+er zou gebeuren, en vervolgens treedt er een error op (not enough values to unpack). Ik zie dat je je best doet om
+input te valideren, maar nog niet alle gevallen worden afgevangen; ik zou aanraden bijv. een try-except constructie
+binnen die loop te zetten!
+
+"""
+
 import random
 import itertools
-
 
 def playerinput(kleuren):
     """De speler geeft hier zijn kleuren combinatie."""
